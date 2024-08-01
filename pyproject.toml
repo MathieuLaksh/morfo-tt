@@ -13,6 +13,7 @@ pandas = "^2.2.2"
 numpy = "^2.0.1"
 opencv-python = "^4.10.0.84"
 scikit-learn = "^1.5.1"
+pyarrow = "^17.0.0"
 
 
 [tool.poetry.group.tests.dependencies]
