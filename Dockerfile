@@ -16,7 +16,7 @@ RUN python -m venv --copies $VIRTUAL_ENV
 COPY pyproject.toml poetry.lock ./
 RUN poetry install --no-interaction --no-ansi --only main
 
-FROM --platform=linux/amd64 python:3.12-slim-bookworm as base
+FROM --platform=linux/amd64 python:3.12-slim-bookworm AS base
 RUN apt-get update --fix-missing
 ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
@@ -25,8 +25,8 @@ SHELL ["/bin/bash", "-c"]
 
 FROM base AS runtime
 COPY --from=build-base /venv /venv
-WORKDIR /morfo_tt
-CMD [ "python main.py" ]
+COPY ./morfo_tt /morfo_tt
+CMD [ "python", "./morfo_tt/main.py" ]
 
 
 
