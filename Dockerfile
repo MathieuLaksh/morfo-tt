@@ -22,20 +22,11 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 SHELL ["/bin/bash", "-c"]
 
-FROM build-base AS build-runtime
-RUN poetry install --no-interaction --no-ansi --with polars-prod
 
 FROM base AS runtime
-COPY --from=build-runtime /venv /venv
-WORKDIR /src
+COPY --from=build-base /venv /venv
+WORKDIR /morfo_tt
+CMD [ "python main.py" ]
 
-FROM build-base AS build-tests
-RUN poetry install --no-interaction --no-ansi --with tests,polars-prod
-
-FROM base AS tests
-COPY --from=build-tests /venv /venv
-COPY ./tests /tests
-WORKDIR /
-CMD nox
 
 
